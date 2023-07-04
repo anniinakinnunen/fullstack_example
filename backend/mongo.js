@@ -5,9 +5,12 @@ if (process.argv.length<3) {
   process.exit(1)
 }
 
-const url = ''
+const password = process.argv[2]
 
-mongoose.set('strictQuery', false)
+const url =
+  `mongodb+srv://anniinakin:${password}@fullstack.tzrndar.mongodb.net/testNoteApp?retryWrites=true&w=majority`
+
+mongoose.set('strictQuery',false)
 mongoose.connect(url)
 
 const noteSchema = new mongoose.Schema({
@@ -17,19 +20,19 @@ const noteSchema = new mongoose.Schema({
 
 const Note = mongoose.model('Note', noteSchema)
 
-// const note = new Note({
-//   content: 'Mongoose makes things easy',
-//   important: true,
-// })
+const note = new Note({
+  content: 'CSS is hard',
+  important: true,
+})
 
-// note.save().then(result => {
-//   console.log('note saved!')
-//   mongoose.connection.close()
-// })
-
-Note.find({}).then(result => {
-  result.forEach(note => {
-    console.log(note)
-  })
+note.save().then(result => {
+  console.log('note saved!')
   mongoose.connection.close()
 })
+
+// Note.find({}).then(result => {
+//   result.forEach(note => {
+//     console.log(note)
+//   })
+//   mongoose.connection.close()
+// })
